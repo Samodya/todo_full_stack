@@ -1,54 +1,85 @@
 import Cookies from "js-cookie";
-import {  Plus,  X } from "lucide-react";
-import { useState } from "react";
+import { Cookie, Edit, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import apiService from "../utilities/httpservices";
 import { UseTaskContext } from "../Context/tasksContext";
 
-export const AddTasks = () => {
+export const EditTasks = ({ id }) => {
   const [showPop, setShowPop] = useState(false);
   const [title, setTitle] = useState("");
   const [task, setTask] = useState("");
   const [datein, setDate] = useState("");
   const [time, setTime] = useState("");
+  const [status, setStatus] = useState("pending");
+
   const { refreshTasks } = UseTaskContext();
   const userId = Cookies.get("userId");
-  const token = Cookies.get("token")
+  const token = Cookies.get("token");
+
+  const getTask = async () => {
+    try {
+      const result = await apiService.getDataById("tasks", id);
+      const dateObj = new Date(result.data.date);
+
+      const year = dateObj.getFullYear();
+      const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+      const day = String(dateObj.getDate()).padStart(2, "0");
+      const formattedDate = `${year}-${month}-${day}`;
+      console.log(result.data);
+      setTitle(result.data.title);
+      setTask(result.data.task);
+      setDate(formattedDate);
+      setTime(result.data.time);
+      setStatus(result.data.status );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //   useEffect(()=>{
+  //     getTask();
+  //   },[])
   const handleSave = async () => {
     try {
       if (!datein || !time) {
         console.log("Date or Time is missing");
         return;
       }
-  
+
       // Combine date and time correctly
       const date = new Date(`${datein}T${time}`);
-  
+
       const data = {
         title,
         task,
         date,
+        status,
         time, // Use a single ISO date field
         createdBy: userId,
       };
-  
-      const result = await apiService.createData("tasks", data,token);
-      console.log("Task added:", result);
+
+      const result = await apiService.updateData("tasks", id, data, token);
+      console.log("Task updated:", result);
       refreshTasks();
     } catch (error) {
       console.log("Error saving task:", error);
     }
   };
-  
 
   return (
     <div>
       <button
-        className="flex gap-1 items-center justify-center 
-        m-2 p-2 bg-primary rounded text-white font-semibold shadow-md hover:bg-primary/90 transition"
-        onClick={() => setShowPop(true)}
+        className="flex gap-1 items-center justify-center
+         m-2 p-2 bg-primary rounded
+          text-white font-semibold shadow-md 
+          hover:bg-primary/90 transition"
+        onClick={() => {
+          getTask();
+          setShowPop(true);
+        }}
       >
-        <Plus size={25}/>
-        Add Task
+        <Edit size={20} />
+        Edit
       </button>
 
       {showPop && (
@@ -99,6 +130,21 @@ export const AddTasks = () => {
                   placeholder="Enter task title"
                 />
               </div>
+            </div>
+            {/* Status Select */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Status
+              </label>
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                className="w-full p-2 rounded bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary"
+              >
+                <option value="new">new</option>
+                <option value="in-progress">In Progress</option>
+                <option value="completed">Completed</option>
+              </select>
             </div>
 
             {/* Description Input */}
