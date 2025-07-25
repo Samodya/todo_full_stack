@@ -7,7 +7,7 @@ import { EditTasks } from "../components/editTasks";
 import { useState } from "react";
 
 export const TasksManger = () => {
-  const { tasks } = UseTaskContext();
+  const { tasks, deleteTask } = UseTaskContext();
   const [statusFilter, setStatusFilter] = useState("all");
 
   return (
@@ -35,6 +35,7 @@ export const TasksManger = () => {
       <div className="px-5 py-6">
         {tasks.length > 0 ? (
           tasks
+            .filter((item) => item && typeof item === "object")
             .filter(
               (item) => statusFilter === "all" || item.status === statusFilter
             )
@@ -45,12 +46,12 @@ export const TasksManger = () => {
               >
                 <div className="flex-1">
                   <h3 className="text-xl font-semibold text-gray-800 mb-1">
-                    {item.title}
+                    {item.title ? item.title : ""}
                   </h3>
                   <p className="text-gray-600 text-sm">
                     {new Date(item.date).toLocaleString()}
                   </p>
-                  <p className="text-gray-500 text-sm">Time: {item.time}</p>
+
                   <p>{item.task}</p>
                 </div>
                 <div className="flex items-center gap-1 flex-1">
@@ -69,7 +70,7 @@ export const TasksManger = () => {
                 <div className="flex gap-3 justify-start sm:justify-end">
                   <EditTasks id={item._id} />
                   <button
-                    // onClick={() => handleDelete(item._id)}
+                     onClick={() => deleteTask(item._id)}
                     className="flex items-center gap-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition"
                     title="Delete Task"
                   >
