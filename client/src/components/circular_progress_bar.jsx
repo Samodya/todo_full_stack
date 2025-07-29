@@ -1,15 +1,15 @@
 import React from "react";
 
-const CircularProgressBar = ({ progress, size , stroke , color = "text-primary" }) => {
+const CircularProgressBar = ({ progress, size , stroke , color, number = "text-primary" }) => {
   const radius = (size - stroke) / 2;
   const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (progress / 100) * circumference;
+  const offset = circumference - (progress / number) * circumference;
 
   return (
     <div className="flex items-center justify-center">
       <svg width={size} height={size}>
         <circle
-          className="text-gray-300"
+          className="text-gray-400"
           stroke="currentColor"
           strokeWidth={stroke}
           fill="transparent"
@@ -18,7 +18,7 @@ const CircularProgressBar = ({ progress, size , stroke , color = "text-primary" 
           cy={size / 2}
         />
         <circle
-          className={color}
+          className='bg-primary'
           stroke="currentColor"
           strokeWidth={stroke}
           strokeLinecap="round"
@@ -37,7 +37,7 @@ const CircularProgressBar = ({ progress, size , stroke , color = "text-primary" 
           textAnchor="middle"
           className=" font-semibold text-4xl fill-current text-primary"
         >
-          {`${progress}%`}
+          {`${progress/number*100}%`}
         </text>
       </svg>
     </div>
