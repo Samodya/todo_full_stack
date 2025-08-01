@@ -30,7 +30,7 @@ export const TopBanner = ({ title = "Dashboard" }) => {
   }, []);
 
   return (
-    <div className="w-full h-80 bg-primary p-4 flex flex-col justify-between rounded-b-2xl">
+    <div className="w-full h-40 bg-primary p-4 flex flex-col justify-between rounded-b-2xl">
       {/* Top Row */}
       <div className="flex items-center justify-between">
         {/* Menu Icon (mobile only) */}

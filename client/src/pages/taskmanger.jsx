@@ -1,22 +1,31 @@
-import { Link } from "react-router-dom";
 import { UseTaskContext } from "../Context/tasksContext";
 import { AddTasks } from "../components/addTasks";
 import { TopBanner } from "../components/topBanner";
-import { Pencil, Trash } from "lucide-react";
 import { EditTasks } from "../components/editTasks";
+import { DeleteTask } from "../components/deletetasks";
 import { useState } from "react";
 
 export const TasksManger = () => {
-  const { tasks, deleteTask } = UseTaskContext();
+  const { tasks } = UseTaskContext();
   const [statusFilter, setStatusFilter] = useState("all");
+
+  const filteredTasks = tasks
+    .filter((item) => item && typeof item === "object")
+    .filter(
+      (item) => statusFilter === "all" || item.status === statusFilter
+    );
 
   return (
     <div>
       <TopBanner title="Tasks Manager" />
+
+      {/* Add Task Button */}
       <div className="p-5 flex flex-row-reverse m-auto w-[95vw]">
         <AddTasks />
       </div>
-      <div className="flex gap-3 px-5 mt-3">
+
+      {/* Filter Buttons */}
+      <div className="flex gap-3 px-5 mt-3 items-center w-full justify-center">
         {["all", "new", "in-progress", "completed"].map((filter) => (
           <button
             key={filter}
@@ -32,58 +41,50 @@ export const TasksManger = () => {
         ))}
       </div>
 
-      <div className="px-5 py-6">
-        {tasks.length > 0 ? (
-          tasks
-            .filter((item) => item && typeof item === "object")
-            .filter(
-              (item) => statusFilter === "all" || item.status === statusFilter
-            )
-            .map((item) => (
+      {/* Scrollable Task List */}
+      <div className="px-5 mt-6 flex justify-center">
+        <div className="w-full max-w-4xl h-[65vh] overflow-y-auto space-y-4 pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+          {filteredTasks.length > 0 ? (
+            filteredTasks.map((item) => (
               <div
                 key={item._id}
-                className="bg-white p-5 rounded-2xl shadow-sm mb-5 border border-gray-200 flex flex-col sm:flex-row sm:justify-between gap-4 sm:items-center hover:shadow-md transition"
+                className="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col sm:flex-row sm:justify-between gap-4 sm:items-center hover:shadow transition"
               >
                 <div className="flex-1">
-                  <h3 className="text-xl font-semibold text-gray-800 mb-1">
-                    {item.title ? item.title : ""}
+                  <h3 className="text-lg font-semibold text-gray-800 mb-1">
+                    {item.title}
                   </h3>
-                  <p className="text-gray-600 text-sm">
+                  <p className="text-gray-500 text-sm mb-2">
                     {new Date(item.date).toLocaleString()}
                   </p>
-
-                  <p>{item.task}</p>
-                </div>
-                <div className="flex items-center gap-1 flex-1">
-                  <div
-                    className={
-                      item.status == "in-progress"
-                        ? "flex w-4 h-4 rounded-full bg-yellow-500"
-                        : item.status == "new"
-                        ? "flex w-4 h-4 rounded-full bg-red-500"
-                        : "flex w-4 h-4 rounded-full bg-green-500"
-                    }
-                  ></div>
-                  {item.status}
+                  <p className="text-gray-700 text-sm">{item.task}</p>
                 </div>
 
-                <div className="flex gap-3 justify-start sm:justify-end">
+                <div className="flex items-center gap-2 text-sm text-gray-600 sm:flex-col sm:items-end">
+                  <span
+                    className={`w-3 h-3 rounded-full ${
+                      item.status === "in-progress"
+                        ? "bg-yellow-500"
+                        : item.status === "new"
+                        ? "bg-red-500"
+                        : "bg-green-500"
+                    }`}
+                  ></span>
+                  <span className="capitalize">{item.status}</span>
+                </div>
+
+                <div className="flex gap-2 justify-end">
                   <EditTasks id={item._id} />
-                  <button
-                     onClick={() => deleteTask(item._id)}
-                    className="flex items-center gap-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition"
-                    title="Delete Task"
-                  >
-                    <Trash size={18} />
-                    {/* in progress */}
-                    <span className="text-sm">Delete</span>
-                  </button>
+                  <DeleteTask id={item._id} />
                 </div>
               </div>
             ))
-        ) : (
-          <p className="text-center text-gray-500 text-lg">No tasks found</p>
-        )}
+          ) : (
+            <p className="text-center text-gray-500 text-lg">
+              No tasks found
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );
