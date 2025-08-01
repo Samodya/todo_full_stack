@@ -19,7 +19,7 @@ const CircularProgressBar = ({ progress, size , stroke , color, number = "text-p
         />
         <circle
           className='bg-primary'
-          stroke="currentColor"
+          stroke="red"
           strokeWidth={stroke}
           strokeLinecap="round"
           fill="transparent"
