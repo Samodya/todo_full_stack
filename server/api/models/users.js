@@ -28,6 +28,12 @@ const userSchema = new mongoose.Schema(
         fileName: String,
         filePath: String,
         fileSize: Number,
+        friends: [
+            {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: 'User'
+            }
+          ]
     }
 )
 
