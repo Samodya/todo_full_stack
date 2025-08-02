@@ -43,7 +43,7 @@ export const TasksManger = () => {
 
       {/* Scrollable Task List */}
       <div className="px-5 mt-6 flex justify-center">
-        <div className="w-full max-w-4xl h-[65vh] overflow-y-auto space-y-4 pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+        <div className="w-full max-w-4xl h-[55vh] overflow-y-auto space-y-4 pr-2 scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-gray-100">
           {filteredTasks.length > 0 ? (
             filteredTasks.map((item) => (
               <div

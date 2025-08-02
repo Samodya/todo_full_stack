@@ -1,9 +1,10 @@
-import { LayoutDashboard, X,ClipboardCheck } from "lucide-react";
+import { LayoutDashboard, X,ClipboardCheck, User } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const listItems = [
     {id:1, text:"Dashboard", icon:<LayoutDashboard/>, link:"../"},
-    {id:2, text:"Tasks", icon:<ClipboardCheck/>, link:"../../todo/tasks"}
+    {id:2, text:"Tasks", icon:<ClipboardCheck/>, link:"../../todo/tasks"},
+    {id:3, text:"Users", icon:<User/>, link:"../../todo/tasks"}
 ]
 
 export const ManinNavigation = ({ menuHide = true, closeMenu }) => {
