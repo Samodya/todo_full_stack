@@ -1,11 +1,12 @@
+import { useEffect } from "react";
 import { useGetUsers } from "../Context/usersContext";
 import { TopBanner } from "../components/topBanner";
 import { UserCard } from "../components/usersCard";
 
 export const UsersPage = () => {
-  const { users } = useGetUsers();
+  const { users, refreshUsers } = useGetUsers();
 
-  console.log(users);
+  useEffect(()=> refreshUsers(),[])
   return (
     <div>
       <TopBanner title="Users" />

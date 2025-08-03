@@ -3,7 +3,7 @@ export const UserCard = ({ fullname, username, email, filePath, id }) => {
     function onAddFriend() {
 
     }
-    
+
     return (
       <div className="flex items-center justify-between bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-4 m-4 w-[80%] mx-auto">
         {/* Left: Avatar and Info */}
@@ -24,7 +24,7 @@ export const UserCard = ({ fullname, username, email, filePath, id }) => {
         {/* Right: Add Friend Button */}
         <button
           onClick={onAddFriend}
-          className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700 transition-colors"
+          className="px-4 py-2 bg-primary text-white rounded-lg text-sm hover:bg-indigo-700 transition-colors"
         >
           Add Friend
         </button>
