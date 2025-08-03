@@ -23,7 +23,7 @@ export const Signup = () => {
     setShowConpassword(!showconpassword);
   };
 
-  const validateEmail = (email: string) => {
+  const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
@@ -63,7 +63,7 @@ export const Signup = () => {
     try {
       const results = await apiService.createData("users/register", data);
       if (results) {
-        navigate("/login");
+        navigate("/");
       }
     } catch (error) {
       console.log(error);

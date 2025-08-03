@@ -13,7 +13,7 @@ export const UsersPage = () => {
 
       <div className="flex flex-row m-auto w-full 
                 items-center justify-center h-[82.5vh]">
-        <div className="m-auto max-h-[60vh] p-2 w-[60%]">
+        <div className="m-auto max-h-[60vh] p-1 w-[60%] bg-red-50">
           <ul>
             {users.length > 0 ? users.map((user) => <li>
                 <UserCard

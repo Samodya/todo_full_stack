@@ -3,6 +3,7 @@ import { TopBanner } from "../components/topBanner";
 import CircularProgressBar from "../components/circular_progress_bar";
 import { ItemsCard } from "../components/itemCard";
 import { UseTaskContext } from "../Context/tasksContext";
+import { EditTasks } from "../components/editTasks";
 
 export const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("today");
@@ -46,7 +47,9 @@ export const Dashboard = () => {
     taskList.length > 0 ? (
       taskList.map((item) => (
         <div key={item.id} className="mb-3">
-          <ItemsCard title={item.title} seconditem={item.time} content={item.task} />
+          <ItemsCard title={item.title} seconditem={item.time} content={item.task}
+            content2 = <EditTasks id={item._id}/>
+           />
         </div>
       ))
     ) : (

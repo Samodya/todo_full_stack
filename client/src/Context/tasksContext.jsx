@@ -44,8 +44,12 @@ export const TasksContextProvider = ({ children }) => {
 
   useEffect(() => {
     let isMounted = true;
-
+  
     const fetchTasks = async () => {
+      const userId = Cookies.get("userId");
+  
+      if (!userId) return;
+  
       setLoading(true);
       try {
         const results = await apiService.getDataById("tasks/user", userId);
@@ -58,14 +62,14 @@ export const TasksContextProvider = ({ children }) => {
         if (isMounted) setLoading(false);
       }
     };
-
+  
     fetchTasks();
-
+  
     return () => {
       isMounted = false;
     };
-  }, [refresh, userId]);
-
+  }, [refresh]);
+  
   const refreshTasks = () => setRefresh((prev) => !prev);
 
   const addTask = async (newTaskData) => {
