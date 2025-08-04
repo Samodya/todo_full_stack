@@ -71,7 +71,7 @@ export const TopBanner = ({ title = "Dashboard" }) => {
               />
             )}
           </div>
-          <span>{uname}</span>
+          <span>{"@"+uname}</span>
         </div>
         {usermenuOpen && (
           <div className="absolute right-1 top-12 mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-200">

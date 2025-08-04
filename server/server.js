@@ -17,6 +17,7 @@ app.use('/files', express.static('files'));
 
 app.use("/api/users",userRoutes);
 app.use("/api/tasks",taskRoutes);
+app.use("/api/request",taskRoutes);
 
 
 

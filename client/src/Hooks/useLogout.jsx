@@ -15,10 +15,10 @@ export const useLogout = () => {
       dispatch({ type: "LOGOUT" });
 
       // Remove authentication data
-      Cookies.remove("user");
+      Cookies.remove("user"); 
+      Cookies.remove("userId");
       Cookies.remove("username");
       Cookies.remove("role");
-      Cookies.remove("userid");
       Cookies.remove("token");
       Cookies.remove("email");
       

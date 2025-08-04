@@ -45,14 +45,17 @@ export const TasksContextProvider = ({ children }) => {
   useEffect(() => {
     let isMounted = true;
   
+    const currentUserId = Cookies.get("userId");
+  
+    if (!currentUserId) return;
+  
+    // 🟡 Immediately clear previous tasks *outside* of render cycle
+    setTasks([]); // This is okay inside useEffect
+  
     const fetchTasks = async () => {
-      const userId = Cookies.get("userId");
-  
-      if (!userId) return;
-  
       setLoading(true);
       try {
-        const results = await apiService.getDataById("tasks/user", userId);
+        const results = await apiService.getDataById("tasks/user", currentUserId);
         if (isMounted) {
           setTasks(Array.isArray(results?.data) ? results.data : []);
         }
@@ -70,7 +73,18 @@ export const TasksContextProvider = ({ children }) => {
     };
   }, [refresh]);
   
-  const refreshTasks = () => setRefresh((prev) => !prev);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const currentUserId = Cookies.get("userId");
+  
+      if (currentUserId !== userId) {
+        setRefresh((prev) => !prev); // Triggers the fetch effect
+      }
+    }, 2000); // Poll every 2 seconds
+  
+    return () => clearInterval(interval);
+  }, [userId]);
+  
 
   const addTask = async (newTaskData) => {
     try {
@@ -118,7 +132,7 @@ export const TasksContextProvider = ({ children }) => {
         tasks,
         tasksError,
         loading,
-        refreshTasks,
+        // refreshTasks,
         addTask,
         editTask,
         deleteTask,
