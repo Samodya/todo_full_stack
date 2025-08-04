@@ -19,11 +19,32 @@ exports.getRequests = async (req,res) => {
     }
 }
 
+exports.getRequestById = async (req, res) => {
+    try {
+        const reqId = req.params.reqId;
+
+        const requests = await requestServices.getRequestById(reqId);
+        res.status(200).json(requests);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
+
 exports.getRequestsByUser = async (req, res) => {
     try {
         const userId = req.params.userId;
 
         const requests = await requestServices.getRequestsByUser(userId);
+        res.status(200).json(requests);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
+exports.getRequestsByReciever = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+
+        const requests = await requestServices.getRequestsByReciever(userId);
         res.status(200).json(requests);
     } catch (error) {
         res.status(500).json(error);

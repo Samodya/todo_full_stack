@@ -28,6 +28,17 @@ exports.getRequestsByUser = async (userId) => {
   }
 };
 
+exports.getRequestsByReciever = async (userId) => {
+  try {
+    const requests = await FriendRequest.find({
+      to: userId,
+    });
+    return requests;
+  } catch (error) {
+    throw new Error("data does not exist!");
+  }
+};
+
 exports.getRequestById = async (reqId) => {
   try {
     const requests = await FriendRequest.findById(reqId);
