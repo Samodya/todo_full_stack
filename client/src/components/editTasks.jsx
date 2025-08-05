@@ -11,7 +11,7 @@ export const EditTasks = ({ id }) => {
   const [datein, setDate] = useState("");
   const [time, setTime] = useState("");
   const [status, setStatus] = useState("pending");
-  const { editTask,refreshTasks  } = UseTaskContext();
+  const { tasks,editTask  } = UseTaskContext();
   const userId = Cookies.get("userId");
   const token = Cookies.get("token");
 
@@ -55,11 +55,8 @@ export const EditTasks = ({ id }) => {
         createdBy: userId,
       };
 
-      await editTask(id, data);
-      refreshTasks();
-    //   const result = await apiService.updateData("tasks", id, data, token);
-    //   console.log("Task updated:", result);
-    //   refreshTasks();
+       await editTask(id, data);
+      
     } catch (error) {
       console.log("Error saving task:", error);
     }

@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const userRoutes = require('./api/Routes/userRoutes');
 const taskRoutes = require('./api/Routes/taskRoutes');
+const requestRoutes = require('./api/Routes/requestsRoutes')
 
 connectDb()
 
@@ -17,7 +18,7 @@ app.use('/files', express.static('files'));
 
 app.use("/api/users",userRoutes);
 app.use("/api/tasks",taskRoutes);
-app.use("/api/request",taskRoutes);
+app.use("/api/request",requestRoutes);
 
 
 

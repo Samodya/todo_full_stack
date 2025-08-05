@@ -35,7 +35,7 @@ exports.getRequestsByUser = async (req, res) => {
         const userId = req.params.userId;
 
         const requests = await requestServices.getRequestsByUser(userId);
-        res.status(200).json(requests);
+        res.status(200).json({data:requests, message:"Data collected"});
     } catch (error) {
         res.status(500).json(error);
     }

@@ -44,18 +44,21 @@ export const TasksContextProvider = ({ children }) => {
 
   useEffect(() => {
     let isMounted = true;
-  
+
     const currentUserId = Cookies.get("userId");
-  
+
     if (!currentUserId) return;
-  
+
     // 🟡 Immediately clear previous tasks *outside* of render cycle
     setTasks([]); // This is okay inside useEffect
-  
+
     const fetchTasks = async () => {
       setLoading(true);
       try {
-        const results = await apiService.getDataById("tasks/user", currentUserId);
+        const results = await apiService.getDataById(
+          "tasks/user",
+          currentUserId
+        );
         if (isMounted) {
           setTasks(Array.isArray(results?.data) ? results.data : []);
         }
@@ -65,26 +68,25 @@ export const TasksContextProvider = ({ children }) => {
         if (isMounted) setLoading(false);
       }
     };
-  
+
     fetchTasks();
-  
+
     return () => {
       isMounted = false;
     };
   }, [refresh]);
-  
+
   useEffect(() => {
     const interval = setInterval(() => {
       const currentUserId = Cookies.get("userId");
-  
+
       if (currentUserId !== userId) {
         setRefresh((prev) => !prev); // Triggers the fetch effect
       }
     }, 2000); // Poll every 2 seconds
-  
+
     return () => clearInterval(interval);
   }, [userId]);
-  
 
   const addTask = async (newTaskData) => {
     try {
@@ -109,8 +111,10 @@ export const TasksContextProvider = ({ children }) => {
         token,
         role
       );
-      setTasks((prev) =>
-        prev.map((task) => (task._id === taskId ? updatedTask.data : task))
+      setTasks(
+        Array.isArray(updatedTask?.data)
+          ? updatedTask.data.filter((task) => task && task._id)
+          : []
       );
     } catch (error) {
       handleError(error);
@@ -132,8 +136,6 @@ export const TasksContextProvider = ({ children }) => {
         tasks,
         tasksError,
         loading,
-        // refreshTasks,
-        addTask,
         editTask,
         deleteTask,
       }}

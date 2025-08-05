@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { useGetUsers } from "../Context/usersContext";
 import { TopBanner } from "../components/topBanner";
 import { UserCard } from "../components/usersCard";
+import { useRequestContext } from "../Context/requestscontent";
 
 export const UsersPage = () => {
     const { users, refreshUsers } = useGetUsers();
+    const { requests } = useRequestContext()
     const [searchTerm, setSearchTerm] = useState("");
   
     // Normalize and filter

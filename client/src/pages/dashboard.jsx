@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TopBanner } from "../components/topBanner";
 import CircularProgressBar from "../components/circular_progress_bar";
 import { ItemsCard } from "../components/itemCard";
 import { UseTaskContext } from "../Context/tasksContext";
 import { EditTasks } from "../components/editTasks";
+import { useRequestContext } from "../Context/requestscontent";
 
 export const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("today");
   const { tasks } = UseTaskContext();
-
-
+  const { requests } = useRequestContext();
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
