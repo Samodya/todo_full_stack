@@ -40,6 +40,18 @@ exports.getRequestsByUser = async (req, res) => {
         res.status(500).json(error);
     }
 }
+
+exports.getRequestsByReciever = async (req, res)=>{
+    try {
+        const userId = req.params.userId;
+
+        const requests = await requestServices.getRequestsByReciever(userId);
+        res.status(200).json({data:requests, message:"Data collected"});
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
+
 exports.getRequestsByReciever = async (req, res) => {
     try {
         const userId = req.params.userId;

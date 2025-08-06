@@ -8,6 +8,7 @@ export const useRequestContext = () => useContext(RequestContext);
 
 export const RequestContextProvider = ({ children }) => {
   const [requests, setRequests] = useState([]);
+  const [torequests, setToRequests] = useState([]);
   const [requestError, setRequestError] = useState(null);
   const [showError, setShowError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -40,11 +41,43 @@ export const RequestContextProvider = ({ children }) => {
   
       console.log("API response:", result.data);
   
-      const validRequests = Array.isArray(result?.data?.data)
-        ? result.data.data.filter((r) => r && r._id)
+      const validRequests = Array.isArray(result?.data)
+        ? result.data.filter((r) => r && r._id)
         : [];
   
       setRequests(validRequests);
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchToRequests = async () => {
+    const currentUserId = Cookies.get("userId");
+    const token = Cookies.get("token");
+  
+    if (!currentUserId) {
+      setRequests([]);
+      return;
+    }
+  
+    setLoading(true);
+  
+    try {
+      const result = await apiService.getDataById(
+        "request/to_user",
+        currentUserId,
+        token
+      );
+  
+      console.log("API response:", result.data);
+  
+      const validRequests = Array.isArray(result?.data)
+        ? result.data.filter((r) => r && r._id)
+        : [];
+  
+      setToRequests(validRequests);
     } catch (error) {
       handleError(error);
     } finally {
@@ -56,6 +89,7 @@ export const RequestContextProvider = ({ children }) => {
   // Initial fetch
   useEffect(() => {
     fetchRequests();
+    fetchToRequests();
   }, []);
 
   // Optional: Manual refresh
@@ -67,6 +101,7 @@ export const RequestContextProvider = ({ children }) => {
     <RequestContext.Provider
       value={{
         requests,
+        torequests,
         loading,
         showError,
         requestError,

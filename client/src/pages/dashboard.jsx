@@ -9,8 +9,7 @@ import { useRequestContext } from "../Context/requestscontent";
 export const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("today");
   const { tasks } = UseTaskContext();
-  const { requests } = useRequestContext();
-
+  
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -103,7 +102,6 @@ export const Dashboard = () => {
   return (
     <div className="min-h-screen w-full overflow-auto bg-gray-50">
       <TopBanner />
-
       {/* Tabs */}
       <div className="flex justify-center space-x-4 mt-4 mb-2">
         {["today", "upcoming", "past"].map((tab) => (

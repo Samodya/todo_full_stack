@@ -63,13 +63,11 @@ exports.editRequestById = async (reqId, requestDetails) => {
 };
 
 exports.deleteRequestById = async (reqId) => {
-    try {
-        const requests = await FriendRequest.findByIdAndDelete(
-            reqId
-          );
-      
-          return requests;
-    } catch (error) {
-        throw new Error(error);
-    }
-}
+  try {
+    const requests = await FriendRequest.findByIdAndDelete(reqId);
+
+    return requests;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
